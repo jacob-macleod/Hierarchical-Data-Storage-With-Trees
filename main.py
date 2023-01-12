@@ -12,7 +12,7 @@ def findNodeName(nodeNumber) :
     # Find node in mainData.csv
     with open("mainData.csv", "r") as mainData:
         nodes = mainData.readlines()
-        return nodes[nodeNumber].split(",")[0]
+        return nodes[nodeNumber-1].split(",")[0]
 
 def listChildrenOfNode(nodeNumber) :
     rootNode = 1
@@ -27,10 +27,16 @@ def listChildrenOfNode(nodeNumber) :
     # Find node in mainData.csv
     with open("mainData.csv", "r") as mainData:
         nodes = mainData.readlines()
-        parent = nodes[nodeNumber].split(",")
+        parent = nodes[nodeNumber-1].split(",")
+        childNodes = []
+        childNames = []
 
-        # Find the children of the parent
+        # Find the node number of the children of the parent
         for i in range(2, len(parent)):
-            print (parent[i])
+            childNodes.append(parent[i])
 
-print(listChildrenOfNode(2))
+        # Find the name of each of the node numbers in childNodes
+        for i in range(0, len(childNodes)) :
+            childNames.append(findNodeName(int(childNodes[i])))
+
+        print (childNames)
