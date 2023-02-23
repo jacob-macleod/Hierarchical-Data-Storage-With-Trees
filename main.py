@@ -126,7 +126,23 @@ def update_root_nodes() :
         for node in range(0, len(root_nodes)) :
             root_nodes_index.write(root_nodes[node] + "\n")
 
+# Save all terminal nodes to the end_nodes_index.csv file
+def update_terminal_nodes () :
+    end_nodes = []
+    # Look at every line in main_data.csv
+    with open("main_data.csv", "r") as main_data:
+        for line in main_data:
+            line_arr = line.split(",")
+            # If the node has no child nodes
+            if len(line_arr) == 2:
+                # Add it to the array
+                end_nodes.append(line_arr[0] + "," + line_arr[1])
 
-update_root_nodes()
+    # Now we have a list of end nodes, let's write it back into end_nodes_index.csv
+    with open ("end_nodes_index.csv", "w") as end_nodes_file:
+        for node in range(0, len(end_nodes)) :
+            end_nodes_file.write(end_nodes[node])
 
+
+update_terminal_nodes()
 
