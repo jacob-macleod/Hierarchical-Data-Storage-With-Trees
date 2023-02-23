@@ -144,5 +144,3 @@ def update_terminal_nodes () :
             end_nodes_file.write(end_nodes[node])
 
 
-update_terminal_nodes()
-
