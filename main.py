@@ -18,7 +18,7 @@ def find_node_name(node_number) :
 def list_children_of_node(node_number) :
     root_node = 1
     # Decide which root to start at
-    with open("root_nodesIndex.csv", "r") as root_nodes:
+    with open("root_nodes_index.csv", "r") as root_nodes:
         # Find the biggest root node which is not bigger than node_number
         # This will be the root the node_number belongs to
         for node in root_nodes:
@@ -42,58 +42,47 @@ def list_children_of_node(node_number) :
 
         print (child_name)
 
-def add_node(node_to_add_to, node_name):
-    node_to_add_to = node_to_add_to - 1
-    node_arr = []
+""" Look at every number in the csv file (node index number and children indexes)
+If there is a number smaller than node_to_add_to, do nothing
+If there is a number bigger than node_to_add_to, increment it
+When you reach the node_to_add_to line, add the item"""
+def add_node(node_to_add_to, node_name) :
+    file = []
+
+    # Look at every line in the file
     with open("main_data.csv", "r") as main_data:
-        nodes = main_data.readlines()
+        for line in main_data:
+            line_arr = line.split(",")
+            print (line_arr)
+            # Look at the node number
+            node_number = line_arr[1]
+            # if node_number > node_to_add_to, increment it
+            if int(node_number) > node_to_add_to:
+                node_number = str(int(node_number) + 1)
 
-        for i in range(0, len(nodes)):
-            print ("i is " + str(i) + "   and node_to_add_to is " + str(node_to_add_to))
-            if i == node_to_add_to:
-                print ("equal")
-                # Increase all children
-                # Add a new child of node number = i to end of current line
-                # Append the new child to the array
-
-                # Increment all children
-                node = nodes[i].split(",")
-                parent_node_name = node[0]
-                node_number = node[1]
-                children = ""
-
-                # For every child and node number belonging to node
-                for i in range(2, len(node)) :
-                    # Add one to the number
-                    children = children + "," + (str(int(node[i]) + 1))
-
-                # Collate all the values that we just split apart and add a new child at the start with node number i
-                line_to_add = parent_node_name + "," + node_number + "," + str(i) + children + "," + "\n"
-
-                node_arr.append(line_to_add)
-
-                node_arr.append(parent_node_name + "," + str(i))
-            elif i > node_to_add_to:
-                # If i is bigger than node_to_add_to
-                # node_name has already been added
-
-                # Define some variables
-                node = nodes[i].split(",")
-                node_name = node[0]
-                children = ""
-
-                # For every child and node number belonging to node
-                for i in range(1, len(node)) :
-                    # Add one to the number
-                    children = children + "," + (str(int(node[i]) + 1))
-
-                # Collate all the values that we just split apart
-                line_to_add = node_name + children + "\n"
-                
-                node_arr.append(line_to_add)
-            else:
-                node_arr.append(nodes[i])
+            # Select all the children of the element
+            children = ""
+            for child_number in range(2, len(line_arr)) :
+                # Add one to the number if the number > node_number
+                if int(line_arr[child_number]) > node_to_add_to:
+                    children = children + "," + (str(int(line_arr[child_number]) + 1))
+                else :
+                    children = children + "," + str(int(line_arr[child_number]))
+            
+            # If the line to add the item to has not been reached
+            if int(node_number) != node_to_add_to :
+                # Save the item
+                line_to_add = line_arr[0] + "," + node_number + children
+                file.append(line_to_add)
+            else :
+                line_to_add = line_arr[0] + "," + node_number.replace("\n", "") + "," + str(node_to_add_to + 1) + children
+                file.append(line_to_add)
+                # Add the element
+                file.append(node_name + "," + str(node_to_add_to + 1))
     
-    # Now, node
+    # Save the contents of file back into the original document
+    with open("main_data.csv", "w") as main_data:
+        for line_number in range(0, len(file)):
+            main_data.write(file[line_number] + "\n")
 
-add_node(1, "myNewNode")
+add_node(3, "newNode")

@@ -1,6 +1,7 @@
 MyFirstNode,1,2
-MyFirstSubNode,2,3,4
-MyFirstEndNode,3
-MySecondEndNode,4
-MySecondNode,5,6
-MyFinalEndNode,6
+MyFirstSubNode,2,3,5
+MyFirstEndNode,3,4
+newNode,4
+MySecondEndNode,5
+MySecondNode,6,7
+MyFinalEndNode,7
