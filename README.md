@@ -3,6 +3,13 @@ A practice project to test an implementation of hierarchical file storage with t
 
 This is one implementation of the theoretical concept of trees.
 
+<!-- vim-markdown-toc GFM -->
+
+* [Notes on my Implementation](#notes-on-my-implementation)
+* [The Aim of this Implementation](#the-aim-of-this-implementation)
+
+<!-- vim-markdown-toc -->
+
 ## Notes on my Implementation
 Each node of the tree has a number assigned to it, representing the line in which it is stored in the .csv files. Tree nodes and branches stored sequentially in files are manipulated based on this fact. Trees are numbered left to right, where the left most root is 1, it's left most branch is 2, and so on. 
 
