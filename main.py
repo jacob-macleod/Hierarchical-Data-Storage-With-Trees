@@ -84,5 +84,49 @@ def add_node(node_to_add_to, node_name) :
     with open("main_data.csv", "w") as main_data:
         for line_number in range(0, len(file)):
             main_data.write(file[line_number] + "\n")
+# Get a list of the root nodes
+def update_root_nodes() :
+    children = []
+    root_nodes = []
 
-add_node(3, "newNode")
+    # For every line in the file
+    with open("main_data.csv", "r") as main_data:
+        for line in main_data:
+            line_arr = line.split(",")
+            # Save the children to the array if they have not already been saved
+            for child_number in range(2, len(line_arr)) :
+                # Look through children
+                child_used = False
+                for child in range(0, len(children)) :
+                    if children[child] == line_arr[child_number].replace("\n", ""):
+                        child_used = True
+
+                # If the child is not already saved
+                children.append(line_arr[child_number].replace("\n", ""))
+
+    # Now, look through the file again
+    # If the node_number is not in children, add it to root_nodes
+    with open("main_data.csv", "r") as main_data:
+        for line in main_data:
+            line_arr = line.split(",")
+            node_number = line_arr[1].replace("\n", "")
+            node_number_used = False
+
+            # See if the node_number is in children
+            for child in range(0, len(children)) :
+                if node_number == children[child]:
+                    node_number_used = True
+
+            # If the node is not in children
+            if node_number_used == False:
+                root_nodes.append(line_arr[0] + "," + node_number)
+
+    # Now you have a list of root nodes, save it to root_nodes_index
+    with open("root_nodes_index.csv", "w") as root_nodes_index:
+        for node in range(0, len(root_nodes)) :
+            root_nodes_index.write(root_nodes[node] + "\n")
+
+
+update_root_nodes()
+
+
